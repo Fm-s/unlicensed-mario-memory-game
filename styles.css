@@ -1,0 +1,249 @@
+body {
+  background-color: #6ee6e6;
+  margin: 0;
+  padding: 0;
+}
+
+.flex-container {
+  display: flex;
+}
+
+/* Frame elementes */
+
+.topFrame {
+  background-image: url("imgs/midleFrame.jpg");
+  background-repeat: repeat-x;
+  width: 100%;
+  height: 100px;
+}
+
+.leftCorner {
+  display: none;
+  background-image: url("imgs/topCorner.jpg");
+  width: 100px;
+  height: 100px;
+}
+
+.rightCorner {
+  display: none;
+  background-image: url("imgs/topRightCorner.jpg");
+  width: 100px;
+  height: 100px;
+}
+
+.leftFrame {
+  display: none;
+  width: 90px;
+  background-image: url("imgs/leftFrame.png");
+  background-repeat: repeat-y;
+  z-index: 999;
+}
+
+.rightFrame {
+  display: none;
+  width: 90px;
+  background-image: url("imgs/rightFrame.png");
+  background-repeat: repeat-y;
+}
+
+.bottonRightCorner {
+  display: none;
+  width: 150px;
+  height: 150px;
+  background-image: url("imgs/bottonRightCorner.png");
+}
+
+.bottonLeftCorner {
+  display: none;
+  width: 150px;
+  height: 150px;
+  background-image: url("imgs/bottonLeftCorner.png");
+}
+
+.bottonFrame {
+  width: 100%;
+  height: 150px;
+  background-image: url("imgs/bottonFrame.png");
+  background-repeat: repeat-x;
+}
+
+/* End of frame elements */
+
+.zoomControl {
+    display: flex;
+    align-items: flex-end;
+    width: 33vw;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.zoomControl > div > img {
+    width: 100%;
+}
+
+.zoomControl > span {
+    color: #e4000F;
+    font-size: 48px;
+    padding: 10px;
+}
+
+
+@media (min-width: 1024px) {
+  /* Frame elementes */
+
+  .leftCorner {
+    display: block;
+  }
+
+  .rightCorner {
+    display: block;
+  }
+
+  /* .topFrame {
+    width: calc(100vw - 200px);
+  } */
+
+  .leftFrame {
+    display: block;
+  }
+
+  .rightFrame {
+    display: block;
+  }
+
+  .bottonRightCorner {
+    display: block;
+  }
+
+  .bottonLeftCorner {
+    display: block;
+  }
+
+  /* .bottonFrame {
+    width: calc(100vw - 300px);
+  } */
+
+  /* End of frame elements */
+}
+
+.middleContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cloudTop {
+  display: flex;
+  justify-content: center;
+  background-image: url(imgs/bg-skycloud.jpg);
+  background-repeat: repeat-x;
+  width: 100%;
+}
+
+.gameMenuBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.gameMenuBar > div {
+  height: 200px;
+}
+
+.lakitu {
+    animation: lakituHover 2s linear infinite;
+}
+
+.lakitu > img {
+  height: 100%;
+}
+
+.gameLogo {
+  text-align: center;
+  width: 30%;
+  position: absolute;
+  top: 30px;
+}
+
+.gameLogo > img {
+  width: 100%;
+}
+
+#gameContainer {
+  width: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gameCard {
+  position: relative;
+  overflow: hidden;
+  margin: 5px;
+  cursor: pointer;
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.hideCard {
+  display: none;
+}
+
+.rotateY {
+  transform: rotateY(180deg);
+}
+
+.gameCard > img {
+  width: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: transform 600ms;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.footer > button {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  padding: 10px;
+}
+
+.screenLock {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  z-index: 999;
+  cursor: progress;
+}
+
+@keyframes lakituHover {
+  0% {
+    transform: translate(0px, -20px);
+  }
+  25% {
+    transform: translate(-1px, -10px);
+  }
+  50% {
+    transform: translate(-2px, -20px);
+  }
+  75% {
+    transform: translate(-1px, -10px);
+  }
+  100% {
+    transform: translate(0px, -20px);
+  }
+}
