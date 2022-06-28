@@ -8,7 +8,17 @@ https://fm-s.github.io/unlicensed-mario-memory-game/
 
 This project was made for DIO's TQI FullStack Web Developer Bootcamp, using only HTML, CSS and Javascript with no external dependencies.
 
+<br>
+
+> ### 📝 Utilized Resources
+>- Visual Studio Code
+>- Plain HTML, CSS and Javascript
+>- Imagens downloaded from the Internet
+>- All Rights reserved to Nintendo and Other
+
+<br>
 <hr/>
+<br>
 
 ### Coming Soon (TO-DO List)
 
