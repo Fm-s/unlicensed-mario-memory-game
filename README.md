@@ -1,6 +1,9 @@
 # Unlicensed Mario Memory Game
 A stantard (for now) memory game, Nintendo's Mario themed (please don't sue me Nintento 🙃 )
 
+### Deployed
+https://fm-s.github.io/unlicensed-mario-memory-game/
+
 ## Purpose of the project
 
 This project was made for DIO's TQI FullStack Web Developer Bootcamp, using only HTML, CSS and Javascript with no external dependencies.
