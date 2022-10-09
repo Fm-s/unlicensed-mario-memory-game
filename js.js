@@ -1,103 +1,40 @@
-const CARD_IMG_PATH_ARRAY = ["yoshi-yellow",
-                              "yoshi-red",
-                              "yoshi-purple",
-                              "yoshi-cyan",
-                              "yoshi-green",
-                              "yosh-island",
-                              "toad-arms-waist",
-                              "toad-hi",
-                              "toad-yay",
-                              "peach-umbrela",
-                              "peach-bye",
-                              "mario-yosh",
-                              "mario-yay",
-                              "mario-snes-jump",
-                              "mario-party",
-                              "mario-luigi",
-                              "mario-hands-up",
-                              "mario-gogles",
-                              "luigi-yosh",
-                              "luigi-look",
-                              "luigi-jump",
-                              "luigi-greet",
-                              "luigi-arm-crossed",
-                              "daisy-yay",
-                              "daisy-strech",
-                              "daisy-hands-hip",
-                              "bombete-cute",
-                              "browser-junior",
-                              "browser-arms-crossed",
-                            ]; //29 total de pares = 58 cards
-const CARD_BACK_IMG = "card-back.png";
-
-let cardArray = [];
+const CARD_IMG_PATH_ARRAY = [
+  "yoshi-yellow",
+  "yoshi-red",
+  "yoshi-purple",
+  "yoshi-cyan",
+  "yoshi-green",
+  "yosh-island",
+  "toad-arms-waist",
+  "toad-hi",
+  "toad-yay",
+  "peach-umbrela",
+  "peach-bye",
+  "mario-yosh",
+  "mario-yay",
+  "mario-snes-jump",
+  "mario-party",
+  "mario-luigi",
+  "mario-hands-up",
+  "mario-gogles",
+  "luigi-yosh",
+  "luigi-look",
+  "luigi-jump",
+  "luigi-greet",
+  "luigi-arm-crossed",
+  "daisy-yay",
+  "daisy-strech",
+  "daisy-hands-hip",
+  "bombete-cute",
+  "browser-junior",
+  "browser-arms-crossed",
+]; //29 total de pares = 58 cards
+const CARD_ID_PREFIX = "card_";
 
 const gameState = { cards: {}, lockedCards: [], pending: false };
 
-const lockScreen = (timeout) => {
-  const lock = document.createElement("div");
-  lock.classList.add("screenLock");
-  document.getElementsByTagName("body")[0].appendChild(lock);
-  setTimeout(() => {
-    document.getElementsByTagName("body")[0].removeChild(lock);
-  }, timeout);
-};
-
-//Implementar
-const getCardImg = (type) => {
-  const rndCard = Math.round(Math.random() * (cardArray.length - 1));
-  return "imgs/" + cardArray.splice(rndCard,1) + ".jpg";
-};
-
-const makeCardOrder = (nbrOfCards) => {
-  const cardOrder = [];
-  
-  for (let i = 0; i < nbrOfCards; i++) {
-    uniquePositionBackWard(cardOrder, i, Math.round(Math.random() * (nbrOfCards - 1)));
-  }
-
-  return cardOrder;
-
-  function uniquePositionBackWard(cardOrder, id, pos) {
-    if (id === 0) {
-      id = nbrOfCards;
-    }
-    if (pos < 0) {
-      return uniquePositionFoward(cardOrder, id, pos + 1);
-    }
-    if (!cardOrder[pos]) {
-      return (cardOrder[pos] = id);
-    }
-    return uniquePositionBackWard(cardOrder, id, pos - 1);
-  }
-
-  function uniquePositionFoward(cardOrder, id, pos) {
-    if (pos >= cardOrder) {
-      return uniquePositionBackWard(cardOrder, id, pos - 1);
-    }
-    if (!cardOrder[pos]) {
-      return (cardOrder[pos] = id);
-    }
-    return uniquePositionFoward(cardOrder, id, pos + 1);
-  }
-};
-
-// Implementar Bombas, shuffles e segurança de paridade
-const makeCardDeck = (nbrOfCards, nbrOfBombs = 0, nbrOfShuffles = 0) => {
-  const matchedPairs = makeCardOrder(nbrOfCards);
-  const cards = {};
-  while (matchedPairs.length > 0) {
-    const [pairA, pairB] = matchedPairs.splice(0, 2);
-    const imgPath = getCardImg();
-    cards[pairA] = { pair: pairB, imgPath: imgPath };
-    cards[pairB] = { pair: pairA, imgPath: imgPath };
-  }
-  return cards;
-};
-
-//Uses Global gameState as non-explicit dependency
 const flipCard = (id) => {
-  const card = document.getElementById("card_" + id);
+  const card = document.getElementById(CARD_ID_PREFIX + id);
   const newImg = document.createElement("img");
   newImg.src = gameState.cards[id].imgPath;
   newImg.classList.add("rotateY");
@@ -105,11 +42,11 @@ const flipCard = (id) => {
   setTimeout(() => {
     card.firstChild.classList.toggle("rotateY");
     card.lastChild.classList.toggle("rotateY");
-  }, 0);
+  }, 100);
 };
 
 const unflipCard = (id) => {
-  const card = document.getElementById("card_" + id);
+  const card = document.getElementById(CARD_ID_PREFIX + id);
   card.firstChild.classList.toggle("rotateY");
   card.lastChild.classList.toggle("rotateY");
   setTimeout(() => {
@@ -117,9 +54,17 @@ const unflipCard = (id) => {
   }, 600);
 };
 
-//Usa como dependecia não explicita a Global gameState
+const SCREEN_LOCK_CSS_CLASS = "screenLock";
+const lockScreen = (timeout) => {
+  const lock = document.createElement("div");
+  lock.classList.add(SCREEN_LOCK_CSS_CLASS);
+  document.getElementsByTagName("body")[0].appendChild(lock);
+  setTimeout(() => {
+    document.getElementsByTagName("body")[0].removeChild(lock);
+  }, timeout);
+};
+
 const cardClicked = (id) => {
-  // Preventes Windows click for 400ms
   lockScreen(400);
   if (gameState.pending) {
     if (!gameState.lockedCards.includes(id)) {
@@ -127,7 +72,7 @@ const cardClicked = (id) => {
       if (gameState.cards[id].pair === gameState.lockedCards[gameState.lockedCards.length - 1]) {
         gameState.lockedCards.push(id);
       } else {
-        lockScreen(1100);
+        lockScreen(1500);
         setTimeout(() => {
           unflipCard(id);
           unflipCard(gameState.lockedCards.pop());
@@ -144,32 +89,72 @@ const cardClicked = (id) => {
   }
 };
 
-//Create Div with back card Image and size (uses CARD_BACK_IMG global)
-const makeCardDiv = (id, column, row) => {
-  
-  //const containerWidth = document.getElementById(divId).clientWidth;
-  const newElement = document.createElement("div");
-  
-  newElement.style.height = "calc("+(80 / row)+"vh - 10px)";
-  // newElement.style.width = (containerWidth / column) - 15 + "px";
-  newElement.style.width = newElement.style.height;
-  //newElement.style.height = newElement.style.width;
-  newElement.classList.add("gameCard");
-
-  newElement.id = "card_" + id;
-  newElement.onclick = cardClicked.bind(null, id);
-
+const CARD_BACK_IMG = "imgs/card-back.png";
+const CARD_CSS_CLASS = "gameCard";
+const newCard = (id, cardHeight) => {
+  const cardBack = CARD_BACK_IMG;
+  const cardElement = document.createElement("div");
+  cardElement.style.height = cardHeight;
+  cardElement.style.width = cardElement.style.height;
+  cardElement.classList.add(CARD_CSS_CLASS);
+  cardElement.id = CARD_ID_PREFIX + id;
+  cardElement.onclick = () => {cardClicked(id)};
   const backImg = document.createElement("img");
-  backImg.src = "imgs/" + CARD_BACK_IMG;
-  backImg.alt = CARD_BACK_IMG;
-
-  newElement.appendChild(backImg);
-
-  return newElement;
+  backImg.src = cardBack;
+  backImg.alt = "Card Back";
+  cardElement.appendChild(backImg);
+  return cardElement;
 };
 
-//Construct`s everything, Cards, Matches, append to div
+const shuffleDeck = (deckSize) => {
+  const cardDeck = [];
+  let increment = 1;
+  
+  const cardPlacer = (card,position) => {
+    if( position < 0  || position >= deckSize) {
+      increment *= -1;
+      const newPosition = position + increment * 2;
+      cardPlacer (card, newPosition);
+      return;
+    }
+    if(!cardDeck[position]) {
+      cardDeck[position] = card;
+      return;
+    }
+    const newPosition = position + increment;
+    cardPlacer (card, newPosition);
+  }
+  
+  for (let i = 1; i <= deckSize; i++) {
+    const RandomNumber = Math.round(Math.random() * (deckSize - 1));
+    cardPlacer(i, RandomNumber, 1);
+  }
+  return cardDeck;
+};
+
+let cardArray = [];
+const getCardImg = () => {
+  const rndCard = Math.round(Math.random() * (cardArray.length - 1));
+  return "imgs/" + cardArray.splice(rndCard,1) + ".jpg";
+};
+
+// Implementar Bombas, shuffles e segurança de paridade
+const makeCardDeck = (nbrOfCards, nbrOfBombs = 0, nbrOfShuffles = 0) => {
+  const matchedPairs = shuffleDeck(nbrOfCards);
+  const cards = {};
+  while (matchedPairs.length > 0) {
+    const [pairA, pairB] = matchedPairs.splice(0, 2);
+    const imgPath = getCardImg();
+    cards[pairA] = { pair: pairB, imgPath: imgPath };
+    cards[pairB] = { pair: pairA, imgPath: imgPath };
+  }
+  return cards;
+};
+
 const makeGameBoard = ({ row, column, divId, gameSt = gameState, nbrOfBombs = 0, nbrOfShuffles = 0 }) => {
+  const cardHeight = "calc("+(80 / row)+"vh - 10px)";
+  
+  
   let numberOfCards = row * column;
   if (typeof numberOfCards !== "number" || numberOfCards < 4) {
     numberOfCards = 4;
@@ -177,7 +162,7 @@ const makeGameBoard = ({ row, column, divId, gameSt = gameState, nbrOfBombs = 0,
   
   for (i = 1; i <= numberOfCards; i++) {
     // Call makeCardDiv Function to create Card Div elements with Ids and Sizes
-    document.getElementById(divId).appendChild(makeCardDiv(i, column, row));
+    document.getElementById(divId).appendChild(newCard(i, cardHeight));
   }
   
   // Manipulate the Global Game State with the Matched and Populate deck
