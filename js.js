@@ -180,8 +180,7 @@ const kaboom = () => {}
 const cardClicked = (id) => {
   if(gameState.cards[id].type === "shuffle"){
     if (!gameState.lockedCards.includes(id)){
-      console.log(gameConfig.deckSize - gameState.lockedCards.length);
-      if((gameConfig.deckSize - gameState.lockedCards.length) === gameConfig.shuffles){
+      if((gameConfig.deckSize - gameState.lockedCards.length) <= gameConfig.shuffles){
         gameState.lockedCards.push(id);
         flipCard(id);
         return
